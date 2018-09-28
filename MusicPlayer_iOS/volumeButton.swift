@@ -8,7 +8,7 @@
 
 import UIKit
 
-@IBDesignable class volumeButton: UIButton{
+@IBDesignable class volumeButton: UIButton {
     @IBInspectable var cornerRadius: CGFloat = 0 {
         didSet {
             layer.cornerRadius = cornerRadius
@@ -26,12 +26,11 @@ import UIKit
         }
     }
     
-    
     public override init(frame: CGRect) {
-        super.init(frame: frame)}
+        super.init(frame: frame)
+    }
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
-        
     }
 }

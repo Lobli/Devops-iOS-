@@ -9,24 +9,12 @@
 import UIKit
 import MediaPlayer
 
-
-
 @IBDesignable class MainViewController: UIViewController {
-    
     private var MusicDataManager: musicDataManager?
     
-
-    
-   @IBAction func MusicLibraryControllerDidCancel(unwindSegue: UIStoryboardSegue) {
-        let viewController = unwindSegue.source as! MusicLibraryController
-        MplayerController.musicPlayerController.nowPlayingItem = viewController.currentSong
-        updateCurrentItemData()
-    }
     @IBOutlet weak var musicControlButtonsOutlet: UIView!
     @IBOutlet weak var volumeViewOutlet: UIView!
-    
     @IBOutlet weak var backgroundImage: UIImageView!
-    
     @IBOutlet weak var backImage: UIImageView!
     @IBOutlet weak var musicLibraryButton: UIButton!
   
@@ -39,12 +27,18 @@ import MediaPlayer
     @IBOutlet weak var volumePercentage: UILabel!
     @IBOutlet weak var volumeSlider: UISlider!
     @IBOutlet var VolumeButtonGestureRecognizer: UIPanGestureRecognizer!
+    
+    @IBAction func MusicLibraryControllerDidCancel(unwindSegue: UIStoryboardSegue) {
+        let viewController = unwindSegue.source as! MusicLibraryController
+        MplayerController.musicPlayerController.nowPlayingItem = viewController.currentSong
+        updateCurrentItemData()
+    }
+    
     @IBAction func VolumeButtonGestureAction(_ sender: UIPanGestureRecognizer) {
         let xTranslation = sender.translation(in: sender.view).x
         let tolerance: CGFloat = 5
         if abs(xTranslation) >= tolerance {
             let newValue = volumeSlider.value + (Float(xTranslation / tolerance))/40
-            
             volumeSlider.setValue(newValue, animated: true)
             // SET UI Elements
             volumePercentage.text = String(Int(volumeSlider.value*100))
@@ -54,12 +48,9 @@ import MediaPlayer
             if(volumeSlider.value<=0.1){
                 volumeButton.borderColor = UIColor(red: 255/255, green: 255/255, blue: 255/255, alpha: 0.1)
             }
-
-            
             sender.setTranslation(.zero, in: sender.view)
         }
     }
-    
     
     //MARK: MUSIC PLAYER
     @IBOutlet weak var playButtonOutlet: UIButton!
@@ -70,7 +61,6 @@ import MediaPlayer
     
     @IBAction func playButtonAction(_ sender: UIButton) {
        playsong()
-        
     }
     func playsong(){
         if isPlaying == false{
@@ -94,19 +84,14 @@ import MediaPlayer
     @IBAction func nextButtonAction(_ sender: UIButton) {
         MplayerController.playNext()
         updatelabel()
-      
-       
     }
     @IBAction func previousButtonAction(_ sender: UIButton) {
         MplayerController.playPrevious()
         updatelabel()
     }
-  
-    
     @IBOutlet weak var CurrentTimeLabel: UILabel!
     @IBOutlet weak var FullTimeLabel: UILabel!
     @IBOutlet weak var hiddenView: UIView!
-    
     @IBOutlet weak var songSlider: UISlider!
     @IBAction func songSliderChanged(_ sender: UISlider) {
         MplayerController.musicPlayerController.currentPlaybackTime = TimeInterval(songSlider.value)
@@ -115,7 +100,6 @@ import MediaPlayer
     var currentTime = Double()
     var fullTime = Double()
 
-    
     func stringFromTimeInterval(interval: TimeInterval) -> String {
         let interval = Int(interval)
         let seconds = interval % 60
@@ -128,7 +112,6 @@ import MediaPlayer
     }
     
     @objc func updatelabel(){
-        
         //let sec = String(MplayerController.musicPlayerController.currentPlaybackTime)
         if (MplayerController.musicPlayerController.currentPlaybackTime > 0) {
             CurrentTimeLabel.text =  stringFromTimeInterval(interval: MplayerController.musicPlayerController.currentPlaybackTime)}
@@ -138,7 +121,7 @@ import MediaPlayer
         if (MplayerController.musicPlayerController.nowPlayingItem != nil){
             FullTimeLabel.text = stringFromTimeInterval(interval: (MplayerController.musicPlayerController.nowPlayingItem?.playbackDuration)!)
         }
-        }
+    }
     
     @objc func updateSlider(){
         if (MplayerController.musicPlayerController.nowPlayingItem != nil){
@@ -150,8 +133,6 @@ import MediaPlayer
     }
     
     func parallax (toView view:UIView, magnitude:Float){
-        
-        
         let xMotion = UIInterpolatingMotionEffect(keyPath: "center.x", type: .tiltAlongHorizontalAxis)
         xMotion.minimumRelativeValue = -magnitude
         xMotion.maximumRelativeValue = magnitude
@@ -159,7 +140,6 @@ import MediaPlayer
         let yMotion = UIInterpolatingMotionEffect(keyPath: "center.y", type: .tiltAlongVerticalAxis)
         yMotion.minimumRelativeValue = -magnitude
         yMotion.maximumRelativeValue = magnitude
-        
         
         let EffectGroup = UIMotionEffectGroup();
         EffectGroup.motionEffects = [xMotion, yMotion]
@@ -174,7 +154,6 @@ import MediaPlayer
         parallax(toView: musicControlButtonsOutlet, magnitude: -20)
         parallax(toView: volumeViewOutlet, magnitude: -20)
         parallax(toView: musicLibraryButton, magnitude: -20)
-        
     }
     
     func addBlurToBackground(){
@@ -192,13 +171,11 @@ import MediaPlayer
         super.viewDidLoad()
         MusicDataManager = (UIApplication.shared.delegate as? AppDelegate)?.MusicDataManager
         
-        
         //SET UP UI ELEMENTS
         backgroundImage.layer.cornerRadius = 50
         backgroundImage.layer.borderWidth = 3
         backgroundImage.layer.borderColor = UIColor.white.cgColor
         backgroundImage.clipsToBounds = true
-        
         addBlurToBackground()
         addParallaxtoAllView()
         
@@ -208,13 +185,9 @@ import MediaPlayer
                                                name: musicPlayerControl.didUpdateState,
                                                object: nil)
         updateCurrentItemData()
-        
         _ = Timer.scheduledTimer(timeInterval: 0.1, target: self, selector: #selector(MainViewController.updatelabel), userInfo: nil, repeats: true)
-        
         _ = Timer.scheduledTimer(timeInterval: 0.1, target: self, selector: #selector(MainViewController.updateSlider), userInfo: nil, repeats: true)
-        
         hiddenView.addSubview(MvolumeView)
-        
         MvolumeView.showsRouteButton = false
         for view in MvolumeView.subviews {
             if let volsl = view as? UISlider {
@@ -225,17 +198,14 @@ import MediaPlayer
                 break
             }
         }
-        
     }
     
     func updateCurrentItemData() {
         if MplayerController.musicPlayerController.nowPlayingItem != nil{
         if let artwork: MPMediaItemArtwork = MplayerController.musicPlayerController.nowPlayingItem?.value(forProperty: MPMediaItemPropertyArtwork) as? MPMediaItemArtwork{
             MplayerController.albumartwork = artwork.image(at: CGSize(width: 200, height: 200))!}
-
         backgroundImage.image = MplayerController.albumartwork
         backImage.image = MplayerController.albumartwork
-        
         let artist = (MplayerController.musicPlayerController.nowPlayingItem?.artist)!
         let songTitle = (MplayerController.musicPlayerController.nowPlayingItem?.title)!
         let album = (MplayerController.musicPlayerController.nowPlayingItem?.albumTitle)!
@@ -250,15 +220,9 @@ import MediaPlayer
             self.updateCurrentItemData()
         }
     }
-
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-    
-    
-    
-   
-    
 }
 

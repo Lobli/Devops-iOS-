@@ -14,7 +14,7 @@ class musicPlayerControl: NSObject {
     
     static let didUpdateState = NSNotification.Name("didUpdateState")
     private var MusicDataManager: musicDataManager?
-
+    
     let predicate = MPMediaPropertyPredicate()
     var isPlaying:Bool = false
     
@@ -43,17 +43,14 @@ class musicPlayerControl: NSObject {
                                        selector: #selector(handleMusicPlayerControllerPlaybackStateDidChange),
                                        name: .MPMusicPlayerControllerPlaybackStateDidChange,
                                        object: musicPlayerController)
-     
+        
         musicPlayerController.setQueue(with: (MusicDataManager?.query)!)
         
     }
     
     deinit {
-       
         musicPlayerController.endGeneratingPlaybackNotifications()
-        
         let notificationCenter = NotificationCenter.default
-        
         notificationCenter.removeObserver(self,
                                           name: .MPMusicPlayerControllerNowPlayingItemDidChange,
                                           object: musicPlayerController)
@@ -61,7 +58,6 @@ class musicPlayerControl: NSObject {
                                           name: .MPMusicPlayerControllerPlaybackStateDidChange,
                                           object: musicPlayerController)
     }
-    
     
     func pause(){
         musicPlayerController.pause()
@@ -85,5 +81,5 @@ class musicPlayerControl: NSObject {
     func handleMusicPlayerControllerPlaybackStateDidChange() {
         NotificationCenter.default.post(name: musicPlayerControl.didUpdateState, object: nil)
     }
-
+    
 }

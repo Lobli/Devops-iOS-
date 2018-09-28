@@ -17,17 +17,10 @@ class musicDataManager {
         let musicPlayerController = MPMusicPlayerController.systemMusicPlayer
         musicPlayerController.setQueue(with: (query))
         if query.items != nil{
-        songs = (Array(query.items!) as [MPMediaItem])
-        
-        for ind in songs{
-            print(ind.title!)
-        }
-           
-            
+            songs = (Array(query.items!) as [MPMediaItem])
+            for ind in songs{
+                print(ind.title!)
+            }
         }else {self.songs = [MPMediaItem.init()]}
-        
     }
-        
-        
-    
 }
