@@ -1,4 +1,5 @@
 language: swift
+osx_image: xcode10
 xcode_project: MusicPlayer_iOS.xcodeproj # path to your xcodeproj folder
-xcode_scheme: MyNewProjectTests
+xcode_scheme: MusicPlayer_iOSTests
 xcode_destination: platform=iOS Simulator,OS=11.3,name=iPhone X
