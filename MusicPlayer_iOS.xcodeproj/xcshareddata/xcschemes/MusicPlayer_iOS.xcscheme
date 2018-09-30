@@ -26,6 +26,7 @@
       buildConfiguration = "Debug"
       selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
+      codeCoverageEnabled = "YES"
       shouldUseLaunchSchemeArgsEnv = "YES">
       <Testables>
          <TestableReference
@@ -35,6 +36,16 @@
                BlueprintIdentifier = "B0FBEA72215E481400C7722D"
                BuildableName = "MusicPlayer_iOSTests.xctest"
                BlueprintName = "MusicPlayer_iOSTests"
+               ReferencedContainer = "container:MusicPlayer_iOS.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "B0F6C67E2161176F001DA71E"
+               BuildableName = "MusicPlayer_iOSUITests.xctest"
+               BlueprintName = "MusicPlayer_iOSUITests"
                ReferencedContainer = "container:MusicPlayer_iOS.xcodeproj">
             </BuildableReference>
          </TestableReference>
