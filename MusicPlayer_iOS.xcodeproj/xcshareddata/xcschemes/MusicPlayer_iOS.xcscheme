@@ -38,6 +38,21 @@
                BlueprintName = "MusicPlayer_iOSTests"
                ReferencedContainer = "container:MusicPlayer_iOS.xcodeproj">
             </BuildableReference>
+            <SkippedTests>
+               <Test
+                  Identifier = "LibraryUiTests">
+               </Test>
+            </SkippedTests>
+         </TestableReference>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "B0BF3A7F216AA395005E2B02"
+               BuildableName = "MusicPlayer_iOSUITests.xctest"
+               BlueprintName = "MusicPlayer_iOSUITests"
+               ReferencedContainer = "container:MusicPlayer_iOS.xcodeproj">
+            </BuildableReference>
          </TestableReference>
       </Testables>
       <MacroExpansion>

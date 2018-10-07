@@ -11,6 +11,18 @@ import MediaPlayer
 
 @IBDesignable class MainViewController: UIViewController {
     private var MusicDataManager: musicDataManager?
+    var MplayerController = musicPlayerControl()
+    var MvolumeView = MPVolumeView()
+    var isPlaying:Bool = false
+    var emptyLibrary:Bool = true
+    var currentTime = Double()
+    var fullTime = Double()
+    
+    @IBOutlet weak var playButtonOutlet: UIButton!
+    @IBOutlet weak var CurrentTimeLabel: UILabel!
+    @IBOutlet weak var FullTimeLabel: UILabel!
+    @IBOutlet weak var hiddenView: UIView!
+    @IBOutlet weak var songSlider: UISlider!
     
     @IBOutlet weak var musicControlButtonsOutlet: UIView!
     @IBOutlet weak var volumeViewOutlet: UIView!
@@ -28,9 +40,10 @@ import MediaPlayer
     @IBOutlet weak var volumeSlider: UISlider!
     @IBOutlet var VolumeButtonGestureRecognizer: UIPanGestureRecognizer!
     
+    
     @IBAction func MusicLibraryControllerDidCancel(unwindSegue: UIStoryboardSegue) {
         let viewController = unwindSegue.source as! MusicLibraryController
-        MplayerController.musicPlayerController.nowPlayingItem = viewController.currentSong
+        MplayerController.systemMusicPlayerController.nowPlayingItem = viewController.currentSong
         updateCurrentItemData()
     }
     
@@ -53,34 +66,11 @@ import MediaPlayer
     }
     
     //MARK: MUSIC PLAYER
-    @IBOutlet weak var playButtonOutlet: UIButton!
-    var MplayerController = musicPlayerControl()
-    var MvolumeView = MPVolumeView()
-    var isPlaying:Bool = false
-    var emptyLibrary:Bool = true
     
     @IBAction func playButtonAction(_ sender: UIButton) {
        playsong()
     }
-    func playsong(){
-        if isPlaying == false{
-            MplayerController.play()
-            let pauseimage = #imageLiteral(resourceName: "pause_button")
-            playButtonOutlet.setImage(pauseimage, for: .normal)
-            backgroundImage.image = MplayerController.albumartwork
-            musicTitleLabel.text = MplayerController.musicTitle
-            isPlaying = true
-            
-        }
-        else {
-            MplayerController.pause()
-            let playimage = #imageLiteral(resourceName: "play_button")
-            playButtonOutlet.setImage(playimage, for: .normal)
-            isPlaying = false
-        }
-        //updateCurrentItemData()
-
-    }
+    
     @IBAction func nextButtonAction(_ sender: UIButton) {
         MplayerController.playNext()
         updatelabel()
@@ -89,17 +79,29 @@ import MediaPlayer
         MplayerController.playPrevious()
         updatelabel()
     }
-    @IBOutlet weak var CurrentTimeLabel: UILabel!
-    @IBOutlet weak var FullTimeLabel: UILabel!
-    @IBOutlet weak var hiddenView: UIView!
-    @IBOutlet weak var songSlider: UISlider!
+    
     @IBAction func songSliderChanged(_ sender: UISlider) {
-        MplayerController.musicPlayerController.currentPlaybackTime = TimeInterval(songSlider.value)
+        MplayerController.systemMusicPlayerController.currentPlaybackTime = TimeInterval(songSlider.value)
         
     }
-    var currentTime = Double()
-    var fullTime = Double()
-
+    
+    func playsong(){
+        if isPlaying == false{
+            MplayerController.play()
+            let pauseimage = #imageLiteral(resourceName: "pause_button")
+            playButtonOutlet.setImage(pauseimage, for: .normal)
+            backgroundImage.image = MplayerController.albumartwork
+            musicTitleLabel.text = MplayerController.musicTitle
+            isPlaying = true
+        }
+        else {
+            MplayerController.pause()
+            let playimage = #imageLiteral(resourceName: "play_button")
+            playButtonOutlet.setImage(playimage, for: .normal)
+            isPlaying = false
+        }
+    }
+    
     func stringFromTimeInterval(interval: TimeInterval) -> String {
         let interval = Int(interval)
         let seconds = interval % 60
@@ -113,21 +115,21 @@ import MediaPlayer
     
     @objc func updatelabel(){
         //let sec = String(MplayerController.musicPlayerController.currentPlaybackTime)
-        if (MplayerController.musicPlayerController.currentPlaybackTime > 0) {
-            CurrentTimeLabel.text =  stringFromTimeInterval(interval: MplayerController.musicPlayerController.currentPlaybackTime)}
+        if (MplayerController.systemMusicPlayerController.currentPlaybackTime > 0) {
+            CurrentTimeLabel.text =  stringFromTimeInterval(interval: MplayerController.systemMusicPlayerController.currentPlaybackTime)}
         else{CurrentTimeLabel.text = "00:00"}
 
         //FULL TIME OF THE SONG
-        if (MplayerController.musicPlayerController.nowPlayingItem != nil){
-            FullTimeLabel.text = stringFromTimeInterval(interval: (MplayerController.musicPlayerController.nowPlayingItem?.playbackDuration)!)
+        if (MplayerController.systemMusicPlayerController.nowPlayingItem != nil){
+            FullTimeLabel.text = stringFromTimeInterval(interval: (MplayerController.systemMusicPlayerController.nowPlayingItem?.playbackDuration)!)
         }
     }
     
     @objc func updateSlider(){
-        if (MplayerController.musicPlayerController.nowPlayingItem != nil){
-        fullTime = Double((MplayerController.musicPlayerController.nowPlayingItem?.playbackDuration)!)
+        if (MplayerController.systemMusicPlayerController.nowPlayingItem != nil){
+        fullTime = Double((MplayerController.systemMusicPlayerController.nowPlayingItem?.playbackDuration)!)
         songSlider.maximumValue = Float(fullTime)
-        let time = String(MplayerController.musicPlayerController.currentPlaybackTime)
+        let time = String(MplayerController.systemMusicPlayerController.currentPlaybackTime)
         let currentTime = Double(time)!
             songSlider.setValue(Float(currentTime), animated: true)}
     }
@@ -172,12 +174,14 @@ import MediaPlayer
         MusicDataManager = (UIApplication.shared.delegate as? AppDelegate)?.MusicDataManager
         
         //SET UP UI ELEMENTS
+        if (backgroundImage != nil) {
         backgroundImage.layer.cornerRadius = 50
         backgroundImage.layer.borderWidth = 3
         backgroundImage.layer.borderColor = UIColor.white.cgColor
         backgroundImage.clipsToBounds = true
         addBlurToBackground()
         addParallaxtoAllView()
+        }
         
         //NOTICENTER
         NotificationCenter.default.addObserver(self,
@@ -201,14 +205,14 @@ import MediaPlayer
     }
     
     func updateCurrentItemData() {
-        if MplayerController.musicPlayerController.nowPlayingItem != nil{
-        if let artwork: MPMediaItemArtwork = MplayerController.musicPlayerController.nowPlayingItem?.value(forProperty: MPMediaItemPropertyArtwork) as? MPMediaItemArtwork{
+        if MplayerController.systemMusicPlayerController.nowPlayingItem != nil{
+        if let artwork: MPMediaItemArtwork = MplayerController.systemMusicPlayerController.nowPlayingItem?.value(forProperty: MPMediaItemPropertyArtwork) as? MPMediaItemArtwork{
             MplayerController.albumartwork = artwork.image(at: CGSize(width: 200, height: 200))!}
         backgroundImage.image = MplayerController.albumartwork
         backImage.image = MplayerController.albumartwork
-        let artist = (MplayerController.musicPlayerController.nowPlayingItem?.artist)!
-        let songTitle = (MplayerController.musicPlayerController.nowPlayingItem?.title)!
-        let album = (MplayerController.musicPlayerController.nowPlayingItem?.albumTitle)!
+        let artist = (MplayerController.systemMusicPlayerController.nowPlayingItem?.artist)!
+        let songTitle = (MplayerController.systemMusicPlayerController.nowPlayingItem?.title)!
+        let album = (MplayerController.systemMusicPlayerController.nowPlayingItem?.albumTitle)!
         MplayerController.musicTitle = "\(songTitle)"
         musicTitleLabel.text = songTitle
         artistAndAlbumLabel.text = "\(artist) - \(album)"

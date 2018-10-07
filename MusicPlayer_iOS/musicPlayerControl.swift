@@ -23,11 +23,11 @@ class musicPlayerControl: NSObject {
     var musicTitle = String()
     var artist = String()
     var songTitle = String()
-    let musicPlayerController = MPMusicPlayerController.systemMusicPlayer
+    let systemMusicPlayerController = MPMusicPlayerController.systemMusicPlayer
     
     override init() {
         super.init()
-        musicPlayerController.beginGeneratingPlaybackNotifications()
+        systemMusicPlayerController.beginGeneratingPlaybackNotifications()
         MusicDataManager = (UIApplication.shared.delegate as? AppDelegate)?.MusicDataManager
         
         
@@ -36,42 +36,49 @@ class musicPlayerControl: NSObject {
         notificationCenter.addObserver(self,
                                        selector: #selector(handleMusicPlayerControllerNowPlayingItemDidChange),
                                        name: .MPMusicPlayerControllerNowPlayingItemDidChange,
-                                       object: musicPlayerController)
+                                       object: systemMusicPlayerController)
         
         
         notificationCenter.addObserver(self,
                                        selector: #selector(handleMusicPlayerControllerPlaybackStateDidChange),
                                        name: .MPMusicPlayerControllerPlaybackStateDidChange,
-                                       object: musicPlayerController)
+                                       object: systemMusicPlayerController)
         
-        musicPlayerController.setQueue(with: (MusicDataManager?.query)!)
+        systemMusicPlayerController.setQueue(with: (MusicDataManager?.query)!)
         
     }
     
     deinit {
-        musicPlayerController.endGeneratingPlaybackNotifications()
+        systemMusicPlayerController.endGeneratingPlaybackNotifications()
         let notificationCenter = NotificationCenter.default
         notificationCenter.removeObserver(self,
                                           name: .MPMusicPlayerControllerNowPlayingItemDidChange,
-                                          object: musicPlayerController)
+                                          object: systemMusicPlayerController)
         notificationCenter.removeObserver(self,
                                           name: .MPMusicPlayerControllerPlaybackStateDidChange,
-                                          object: musicPlayerController)
+                                          object: systemMusicPlayerController)
     }
     
     func pause(){
-        musicPlayerController.pause()
+        systemMusicPlayerController.pause()
     }
     func play(){
-        musicPlayerController.play()
+        systemMusicPlayerController.play()
+        artist = (systemMusicPlayerController.nowPlayingItem?.artist)!;
+        
+        if let artwork: MPMediaItemArtwork = systemMusicPlayerController.nowPlayingItem?.value(forProperty: MPMediaItemPropertyArtwork) as? MPMediaItemArtwork{
+            albumartwork = artwork.image(at: CGSize(width: 200, height: 200))!}
+        musicTitle = (systemMusicPlayerController.nowPlayingItem?.title)!;
+        artist = (systemMusicPlayerController.nowPlayingItem?.artist)!;
+        //var songTitle = String()
     }
     
     func playNext(){
-        musicPlayerController.skipToNextItem()
+        systemMusicPlayerController.skipToNextItem()
         
     }
     func playPrevious(){
-        musicPlayerController.skipToPreviousItem()
+        systemMusicPlayerController.skipToPreviousItem()
     }
     
     func handleMusicPlayerControllerNowPlayingItemDidChange() {
