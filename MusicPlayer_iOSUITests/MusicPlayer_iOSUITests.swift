@@ -38,11 +38,12 @@ class MusicPlayer_iOSUITests: XCTestCase {
         button.swipeRight()
         button.swipeLeft()
     }
-    func testPlayAndPause() {
-        let app = XCUIApplication()
-        app.buttons["play button"].tap()
-        app.buttons["pause button"].tap()
-    }
+    
+//    func testPlayAndPause() {
+//        let app = XCUIApplication()
+//        app.buttons["play button"].tap()
+//        app.buttons["pause button"].tap()
+//    }
     
 //    func testPlayNext_Previous() {
 //        let app = XCUIApplication()

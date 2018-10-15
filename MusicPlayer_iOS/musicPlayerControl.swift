@@ -63,6 +63,8 @@ class musicPlayerControl: NSObject {
         systemMusicPlayerController.pause()
     }
     func play(){
+        if (systemMusicPlayerController.nowPlayingItem != nil)
+        {
         systemMusicPlayerController.play()
         artist = (systemMusicPlayerController.nowPlayingItem?.artist)!;
         
@@ -71,6 +73,7 @@ class musicPlayerControl: NSObject {
         musicTitle = (systemMusicPlayerController.nowPlayingItem?.title)!;
         artist = (systemMusicPlayerController.nowPlayingItem?.artist)!;
         //var songTitle = String()
+        }
     }
     
     func playNext(){

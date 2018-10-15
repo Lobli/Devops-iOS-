@@ -24,9 +24,9 @@ class MusicPlayer_iOSTests: XCTestCase {
         // Put teardown code here. This method is called after the invocation of each test method in the class.
     }
 
-    func testPlaySongWithController() {
-        TestMplayerController.play();
-    }
+//    func testPlaySongWithController() {
+//        TestMplayerController.play();
+//    }
     
     func testPauseSongWithController() {
         TestMplayerController.pause();
