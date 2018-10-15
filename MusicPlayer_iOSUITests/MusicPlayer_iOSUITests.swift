@@ -44,19 +44,19 @@ class MusicPlayer_iOSUITests: XCTestCase {
         app.buttons["pause button"].tap()
     }
     
-    func testPlayNext_Previous() {
-        let app = XCUIApplication()
-        let nextButton = app.buttons["next"]
-        nextButton.tap()
-        let previousButton = app.buttons["previous"]
-        previousButton.tap()
-        app.buttons["play button"].tap()
-        nextButton.tap()
-        previousButton.tap()
-        app.buttons["pause button"].tap()
-        XCUIDevice.shared.orientation = .landscapeRight
-        XCUIDevice.shared.orientation = .faceUp
-    }
+//    func testPlayNext_Previous() {
+//        let app = XCUIApplication()
+//        let nextButton = app.buttons["next"]
+//        nextButton.tap()
+//        let previousButton = app.buttons["previous"]
+//        previousButton.tap()
+//        app.buttons["play button"].tap()
+//        nextButton.tap()
+//        previousButton.tap()
+//        app.buttons["pause button"].tap()
+//        XCUIDevice.shared.orientation = .landscapeRight
+//        XCUIDevice.shared.orientation = .faceUp
+//    }
     
     func testOrientations(){
         XCUIDevice.shared.orientation = .landscapeRight

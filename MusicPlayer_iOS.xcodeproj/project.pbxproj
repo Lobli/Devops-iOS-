@@ -53,8 +53,6 @@
 		B0BD87691FA5152000AC0848 /* MusicPlayer_iOS.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = MusicPlayer_iOS.entitlements; sourceTree = "<group>"; };
 		B0BD876B1FA5152000AC0848 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		B0BD87711FA6681200AC0848 /* MusicLibraryController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MusicLibraryController.swift; sourceTree = "<group>"; };
-		B0BF3A70216A9E71005E2B02 /* MusicPlayer_iOS_libraryTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MusicPlayer_iOS_libraryTests.swift; sourceTree = "<group>"; };
-		B0BF3A72216A9E71005E2B02 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B0BF3A78216AA1B3005E2B02 /* LibraryTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryTests.swift; sourceTree = "<group>"; };
 		B0BF3A80216AA395005E2B02 /* MusicPlayer_iOSUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MusicPlayer_iOSUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		B0BF3A82216AA395005E2B02 /* MusicPlayer_iOSUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MusicPlayer_iOSUITests.swift; sourceTree = "<group>"; };
@@ -95,7 +93,6 @@
 			children = (
 				B0BD874A1FA3610100AC0848 /* MusicPlayer_iOS */,
 				B0FBEA74215E481400C7722D /* MusicPlayer_iOSTests */,
-				B0BF3A6F216A9E71005E2B02 /* MusicPlayer_iOS_libraryTests */,
 				B0BF3A81216AA395005E2B02 /* MusicPlayer_iOSUITests */,
 				B0BD87491FA3610100AC0848 /* Products */,
 				B0BD876A1FA5152000AC0848 /* Frameworks */,
@@ -136,15 +133,6 @@
 				B0BD876B1FA5152000AC0848 /* AudioToolbox.framework */,
 			);
 			name = Frameworks;
-			sourceTree = "<group>";
-		};
-		B0BF3A6F216A9E71005E2B02 /* MusicPlayer_iOS_libraryTests */ = {
-			isa = PBXGroup;
-			children = (
-				B0BF3A70216A9E71005E2B02 /* MusicPlayer_iOS_libraryTests.swift */,
-				B0BF3A72216A9E71005E2B02 /* Info.plist */,
-			);
-			path = MusicPlayer_iOS_libraryTests;
 			sourceTree = "<group>";
 		};
 		B0BF3A81216AA395005E2B02 /* MusicPlayer_iOSUITests */ = {
